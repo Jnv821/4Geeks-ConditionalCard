@@ -23,14 +23,27 @@ import "../style/index.css";
     }
  */
 function render(variables = {}) {
-  //const includeCover = document.querySelector("")
-  //const name= document.querySelector("")
-  //const lastname= document.querySelector("")
-  //const smPosition = document.querySelector("")
-  //const urlTwitter= document.querySelector("")
-  // const urlGithub = document.querySelector("")
-  //const urlLinkedin = document.querySelector("")
-  //const urlInstagram = document.querySelector("");
+  const includeCover = document.querySelector(".include-cover");
+  const name = document.querySelector(".name");
+  const lastname = document.querySelector(".lastname");
+  const smPosition = document.querySelector(".smposition");
+  const urlTwitter = document.querySelector(".urlTwitter");
+  const urlGithub = document.querySelector(".urlGithub");
+  const urlLinkedin = document.querySelector(".urlLinkedin");
+  const urlInstagram = document.querySelector(".urlInstagram");
+  const role = document.querySelector(".role");
+  const city = document.querySelector(".city");
+  const country = document.querySelector(".country");
+
+  smPosition.addEventListener("change", () => {
+    if (smPosition.value === "Left") {
+      smPosition.classList.add("position-left");
+      smPosition.classList.remove("position-rigth");
+    } else {
+      smPosition.classList.add("position-rigth");
+      smPosition.classList.remove("position-left");
+    }
+  });
 
   console.log("These are the current variables: ", variables); //print on the console
   // here we ask the logical questions to make decisions on how to build the html
@@ -42,14 +55,23 @@ function render(variables = {}) {
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
+          <h1>${name.value || "Your Name"} ${lastname.value ||
+    "Your Lastname"}</h1>
+          <h2>${role.value}</h2>
+          <h3>${city.value || "Miami"}, ${country.value || "USA"}</h3>
+          <ul class="${smPosition.value}">
+            <li><a href=${
+              urlTwitter.value
+            }><i class="fab fa-twitter"></i></a></li>
+            <li><a href="${
+              urlGithub.value
+            }"><i class="fab fa-github"></i></a></li>
+            <li><a href="${
+              urlLinkedin.value
+            }"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="${
+              urlInstagram.value
+            }"><i class="fab fa-instagram"></i></a></li>
           </ul>
         </div>
     `;
