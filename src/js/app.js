@@ -35,6 +35,49 @@ function render(variables = {}) {
   const city = document.querySelector(".city");
   const country = document.querySelector(".country");
 
+  /*===================================================
+    CODE RELATED TO ACCOUNT NAMES AND URL CONSTRUCTION
+    ===================================================
+    */
+
+  // There should be a validation on "Enter" key of the from to validate it corresponds to the
+  // actual social network, this should work for the scope of the excercise.
+
+  function urlMaster(link, social) {
+    return constructUrl(getAccountName(link), social);
+  }
+
+  function getAccountName(link) {
+    // Validate that is a link, if it is not a link return inmediately with the username for ConstructURL later on.
+    if (!link.includes("https://")) return link;
+
+    // Linkedin has a different way to handle accounts. Where Twitter, Github and Instagram handle it as: www.domain/account
+    // Linkedin handles it as follow: www.domain/in/account. split according to those parameters and return the las value. (Account Name)
+
+    if (link.includes("linkedin")) {
+      let accountName = link.split("/in/");
+      console.log(accountName[1]);
+      return accountName[1];
+    } else {
+      let accountName = link.split(".com/");
+      console.log(accountName[1]);
+      return accountName[1];
+    }
+  }
+
+  function constructUrl(link, social) {
+    switch (social) {
+      case "twitter":
+        return (link = `https://twitter.com/${link}`);
+      case "github":
+        return (link = `https://github.com/${link}`);
+      case "linkedin":
+        return (link = `https://www.linkedin.com/in/${link}`);
+      case "instagram":
+        return (link = `https://www.instagram.com/${link}`);
+    }
+  }
+
   smPosition.addEventListener("change", () => {
     if (smPosition.value === "Left") {
       smPosition.classList.add("position-left");
@@ -60,18 +103,20 @@ function render(variables = {}) {
           <h2>${role.value}</h2>
           <h3>${city.value || "Miami"}, ${country.value || "USA"}</h3>
           <ul class="${smPosition.value}">
-            <li><a href=${
-              urlTwitter.value
-            }><i class="fab fa-twitter"></i></a></li>
-            <li><a href="${
-              urlGithub.value
-            }"><i class="fab fa-github"></i></a></li>
-            <li><a href="${
-              urlLinkedin.value
-            }"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="${
-              urlInstagram.value
-            }"><i class="fab fa-instagram"></i></a></li>
+            <li><a href=${urlMaster(urlTwitter.value, "twitter")}>
+            <i class="fab fa-twitter"></i></a></li>
+            <li><a href="${urlMaster(
+              urlGithub.value,
+              "github"
+            )}"><i class="fab fa-github"></i></a></li>
+            <li><a href="${urlMaster(
+              urlLinkedin.value,
+              "linkedin"
+            )}"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="${urlMaster(
+              urlInstagram.value,
+              "instagram"
+            )}"><i class="fab fa-instagram"></i></a></li>
           </ul>
         </div>
     `;
